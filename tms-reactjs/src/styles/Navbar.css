@@ -1,0 +1,56 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.navbar-links a {
+  margin-right: 1rem;
+  color: white;
+  text-decoration: none;
+}
+
+.navbar-user {
+  position: relative;
+}
+
+.navbar-user .arrow {
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 150px;
+}
+
+.dropdown a, .dropdown button {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
+}
+
+.dropdown a:hover, .dropdown button:hover {
+  background-color: #f1f1f1;
+  color: black;
+}
