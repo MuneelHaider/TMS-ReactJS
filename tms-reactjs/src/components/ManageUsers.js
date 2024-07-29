@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/ManageUsers.css';
+import { BASE_URL } from '../services/config';
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
@@ -8,7 +9,7 @@ const ManageUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/Account/non-admin-users', {
+        const response = await axios.get(`${BASE_URL}/Account/non-admin-users`, {
           headers: { adminUsername: localStorage.getItem('username') }
         });
         setUsers(response.data);
@@ -23,7 +24,7 @@ const ManageUsers = () => {
   const handleDeleteUser = async (userId) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
-        await axios.delete(`http://localhost:5001/Account/delete-user/${userId}`, {
+        await axios.delete(`${BASE_URL}/Account/delete-user/${userId}`, {
           headers: { adminUsername: localStorage.getItem('username') }
         });
         setUsers(users.filter(user => user.id !== userId));

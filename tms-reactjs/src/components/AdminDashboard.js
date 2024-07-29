@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { BASE_URL } from '../services/config';
 import '../styles/AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -14,7 +15,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/Tasks/user-tasks', {
+        const response = await axios.get(`${BASE_URL}/Tasks/user-tasks`, {
           headers: {
             username: adminUsername,
           },
@@ -38,7 +39,7 @@ const AdminDashboard = () => {
 
   const handleDelete = async (taskId) => {
     try {
-      await axios.delete(`http://localhost:5001/Tasks/${taskId}`, {
+      await axios.delete(`${BASE_URL}/Tasks/${taskId}`, {
         headers: {
           adminUsername,
         },

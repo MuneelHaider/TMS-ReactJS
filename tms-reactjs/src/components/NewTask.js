@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/NewTask.css';
+import { BASE_URL } from '../services/config';
 
 const NewTask = () => {
   const [title, setTitle] = useState('');
@@ -13,7 +14,7 @@ const NewTask = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/Account/non-admin-users', {
+        const response = await axios.get(`${BASE_URL}/Account/non-admin-users`, {
           headers: { username: localStorage.getItem('username') }
         });
         setUsers(response.data);
@@ -36,7 +37,7 @@ const NewTask = () => {
       createdBy: localStorage.getItem('username')
     };
     try {
-      await axios.post('http://localhost:5001/Tasks/assign', task, {
+      await axios.post(`${BASE_URL}/Tasks/assign`, task, {
         headers: { adminUsername: localStorage.getItem('username') }
       });
       alert('Task created successfully');

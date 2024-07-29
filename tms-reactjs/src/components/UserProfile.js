@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/UserProfile.css';
+import { BASE_URL } from '../services/config';
 
 const UserProfile = () => {
   const [profile, setProfile] = useState(null);
@@ -10,7 +11,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/Account/profile', {
+        const response = await axios.get(`${BASE_URL}/Account/profile`, {
           headers: { username: localStorage.getItem('username') },
         });
         setProfile(response.data);
@@ -28,7 +29,7 @@ const UserProfile = () => {
   const handleDeleteAccount = async () => {
     try {
       const username = localStorage.getItem('username');
-      await axios.delete(`http://localhost:5001/Account/delete-own-account/${username}`);
+      await axios.delete(`${BASE_URL}/Account/delete-own-account/${username}`);
       localStorage.removeItem('username');
       localStorage.removeItem('role');
       window.location.href = '/';

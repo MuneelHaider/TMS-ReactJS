@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { BASE_URL } from '../services/config';
 import '../styles/UserDashboard.css';
 
 const UserDashboard = () => {
@@ -14,7 +15,7 @@ const UserDashboard = () => {
         const fetchTasks = async () => {
             try {
                 const username = localStorage.getItem('username');
-                const response = await axios.get('http://localhost:5001/Tasks/user-tasks', {
+                const response = await axios.get(`${BASE_URL}/Tasks/user-tasks`, {
                     headers: {
                         username: username
                     }
@@ -54,11 +55,11 @@ const UserDashboard = () => {
 
     const handleTaskStatusChange = async (taskId, newStatus) => {
         try {
-            await axios.post('http://localhost:5001/Tasks/update-status', {
+            await axios.post(`${BASE_URL}/Tasks/update-status`, {
                 taskId: taskId,
                 status: newStatus
             });
-            // Update the task status locally after successful update
+            
             setTasks(tasks.map(task => task.id === taskId ? { ...task, status: newStatus } : task));
         } catch (error) {
             console.error('Error updating task status', error);
