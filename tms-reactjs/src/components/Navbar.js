@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/Navbar.css';
 
-const Navbar = () => {
+const CustomNavbar = () => {
   const [username, setUsername] = useState(localStorage.getItem('username'));
   const [role, setRole] = useState(localStorage.getItem('role'));
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,6 +21,19 @@ const Navbar = () => {
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
@@ -46,30 +62,39 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar">
-      <div className="navbar-brand" onClick={handleHomeClick} style={{ cursor: 'pointer' }}>
+    <Navbar bg="primary" variant="dark" expand="lg" className="custom-navbar">
+      <Navbar.Brand onClick={handleHomeClick} className="navbar-brand-custom">
         TMS
-      </div>
-      <div className="navbar-links">
-        {username ? (
-          <div className="navbar-user">
-            Hello, {username} <span className="arrow" onClick={toggleDropdown}>▼</span>
-            {dropdownOpen && (
-              <div className="dropdown">
-                <Link to="/user-profile" onClick={() => setDropdownOpen(false)}>View Profile</Link>
-                <button onClick={handleLogout}>Logout</button>
-              </div>
-            )}
-          </div>
-        ) : (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Register</Link>
-          </>
-        )}
-      </div>
-    </nav>
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="ml-auto">
+          {username ? (
+            <div 
+              className="nav-dropdown" 
+              ref={dropdownRef}
+              onMouseEnter={() => setDropdownOpen(true)}
+              onMouseLeave={() => setDropdownOpen(false)}
+              onClick={toggleDropdown}
+            >
+              <span className="nav-link">{`Hello, ${username}`}</span>
+              {dropdownOpen && (
+                <div className="dropdown-menu show">
+                  <NavDropdown.Item as={Link} to="/user-profile">View Profile</NavDropdown.Item>
+                  <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <Nav.Link as={Link} to="/login">Login</Nav.Link>
+              <Nav.Link as={Link} to="/signup">Register</Nav.Link>
+            </>
+          )}
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   );
 };
 
-export default Navbar;
+export default CustomNavbar;
