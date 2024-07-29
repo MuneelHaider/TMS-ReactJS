@@ -1,17 +1,42 @@
 .footer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    background: #007bff;
-    color: #d1d1d1;
-    width: 100%;
-    text-align: center;
-    font-size: 1.2rem;
-  }
-  
-  .footer p {
-    margin: 0.5rem 0;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  background: #007bff;
+  color: white;
+  width: 100%;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.footer p {
+  margin: 0.2rem 0;
+  color: white; /* Ensure the text color is white */
+}
+
+.footer a {
+  color: white; /* Ensure the link color is white */
+  text-decoration: none; /* Remove underline */
+}
+
+.footer a:hover {
+  text-decoration: underline; /* Add underline on hover */
+}
+
+.footer-icons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.icon {
+  color: white;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.icon:hover {
+  color: #d1d1d1;
+}

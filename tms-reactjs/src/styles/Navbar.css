@@ -1,71 +1,57 @@
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #007bff; /* Adjust the color as needed */
-  padding: 0.5rem 1rem;
-  color: white;
-  position: relative;
-  z-index: 1;
+.custom-navbar {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.navbar-brand {
-  font-size: 1.5rem;
+.navbar-brand-custom {
+  font-size: 3rem;
   font-weight: bold;
   cursor: pointer;
+  transition: transform 0.3s, color 0.3s;
 }
 
-.navbar-links {
-  display: flex;
-  align-items: center;
+.navbar-brand-custom:hover {
+  color: #ffdd57 !important;
+  transform: scale(1.1);
 }
 
-.navbar-links a {
+.nav-link, .nav-dropdown{
   color: white;
-  margin-left: 1rem;
-  text-decoration: none;
-  font-size: 1rem;
+  font-size: 1.3rem;
 }
 
-.navbar-user {
+.dropdown-item {
+  color: rgb(0, 0, 0) !important;
+}
+
+.nav-link:hover, .nav-dropdown .dropdown-item:hover {
+  color: #ffdd57 !important;
+}
+
+.nav-dropdown {
   position: relative;
-  cursor: pointer;
 }
 
-.navbar-user .arrow {
-  margin-left: 0.5rem;
-}
-
-.dropdown {
+.nav-dropdown .dropdown-menu {
+  display: none;
   position: absolute;
-  top: 100%;
-  right: 0;
   background-color: white;
-  color: black;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 2;
-  width: 150px;
+  color: rgb(255, 255, 255);
+  right: 0;
+  transform: translateY(10px);
+  transition: transform 0.3s, opacity 0.3s;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 100;
 }
 
-.dropdown a,
-.dropdown button {
+.nav-dropdown:hover .dropdown-menu,
+.nav-dropdown:focus-within .dropdown-menu {
   display: block;
-  padding: 0.5rem 1rem;
-  color: black;
-  text-decoration: none;
-  background: none;
-  border: none;
-  text-align: left;
-  width: 100%;
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.dropdown button {
-  cursor: pointer;
-}
-
-.dropdown a:hover,
-.dropdown button:hover {
-  background-color: #f8f9fa;
+.nav-dropdown .dropdown-toggle::after {
+  display: none;
 }
