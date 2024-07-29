@@ -1,45 +1,43 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import '../styles/UserProfile.css';
 
 const UserProfile = () => {
   const [profile, setProfile] = useState(null);
-  const [taskCounts, setTaskCounts] = useState(null);
-  const username = localStorage.getItem('username');
+  const [taskCounts, setTaskCounts] = useState({ completed: 0, pending: 0 });
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch('http://localhost:5001/Account/profile', {
-          headers: {
-            username: username
-          }
+        const response = await axios.get('http://localhost:5001/Account/profile', {
+          headers: { username: localStorage.getItem('username') },
         });
-        const data = await response.json();
-        setProfile(data);
+        setProfile(response.data);
+        const completedTasks = response.data.assignedTasks.filter(task => task.status === 'Completed').length;
+        const pendingTasks = response.data.assignedTasks.filter(task => task.status === 'Pending').length;
+        setTaskCounts({ completed: completedTasks, pending: pendingTasks });
       } catch (error) {
         console.error('Error fetching profile:', error);
       }
     };
 
-    const fetchTaskCounts = async () => {
-      try {
-        const response = await fetch('http://localhost:5001/Tasks/task-counts', {
-          headers: {
-            username: username
-          }
-        });
-        const data = await response.json();
-        setTaskCounts(data);
-      } catch (error) {
-        console.error('Error fetching task counts:', error);
-      }
-    };
-
     fetchProfile();
-    fetchTaskCounts();
-  }, [username]);
+  }, []);
 
-  if (!profile || !taskCounts) {
+  const handleDeleteAccount = async () => {
+    try {
+      const username = localStorage.getItem('username');
+      await axios.delete(`http://localhost:5001/Account/delete-own-account/${username}`);
+      localStorage.removeItem('username');
+      localStorage.removeItem('role');
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Error deleting account:', error);
+    }
+  };
+
+  if (!profile) {
     return <div>Loading...</div>;
   }
 
@@ -47,53 +45,49 @@ const UserProfile = () => {
     <div className="profile-container">
       <h2>{profile.username}'s Profile</h2>
       <p><strong>Role:</strong> {profile.role}</p>
-
       <div className="task-counts">
-        <h3>Task Counts</h3>
-        <ul>
-          {taskCounts.map((taskCount, index) => (
-            <li key={index}><strong>{taskCount.status}:</strong> {taskCount.count}</li>
-          ))}
-        </ul>
+        <p><strong>Task Counts</strong></p>
+        <p>Completed: {taskCounts.completed}</p>
+        <p>Pending: {taskCounts.pending}</p>
       </div>
-
-      <div>
+      <div className="tasks">
         <h3>Assigned Tasks</h3>
-        {profile.assignedTasks.length > 0 ? (
-          <ul>
-            {profile.assignedTasks.map(task => (
-              <li key={task.id}>
-                <p><strong>Title:</strong> {task.title}</p>
-                <p><strong>Description:</strong> {task.description}</p>
-                <p><strong>Due Date:</strong> {new Date(task.dueDate).toLocaleDateString()}</p>
-                <p><strong>Priority:</strong> {task.priority}</p>
-                <p><strong>Status:</strong> {task.status}</p>
-              </li>
-            ))}
-          </ul>
-        ) : (
+        {profile.assignedTasks.length === 0 ? (
           <p>No assigned tasks.</p>
-        )}
-      </div>
-
-      <div>
-        <h3>Created Tasks</h3>
-        {profile.createdTasks.length > 0 ? (
-          <ul>
-            {profile.createdTasks.map(task => (
-              <li key={task.id}>
-                <p><strong>Title:</strong> {task.title}</p>
-                <p><strong>Description:</strong> {task.description}</p>
-                <p><strong>Due Date:</strong> {new Date(task.dueDate).toLocaleDateString()}</p>
-                <p><strong>Priority:</strong> {task.priority}</p>
-                <p><strong>Status:</strong> {task.status}</p>
-              </li>
-            ))}
-          </ul>
         ) : (
+          profile.assignedTasks.map(task => (
+            <div key={task.id} className="task">
+              <h4>{task.title}</h4>
+              <p><strong>Description:</strong> {task.description}</p>
+              <p><strong>Due Date:</strong> {task.dueDate}</p>
+              <p><strong>Priority:</strong> {task.priority}</p>
+              <p><strong>Status:</strong> {task.status}</p>
+            </div>
+          ))
+        )}
+        <h3>Created Tasks</h3>
+        {profile.createdTasks.length === 0 ? (
           <p>No created tasks.</p>
+        ) : (
+          profile.createdTasks.map(task => (
+            <div key={task.id} className="task">
+              <h4>{task.title}</h4>
+              <p><strong>Description:</strong> {task.description}</p>
+              <p><strong>Due Date:</strong> {task.dueDate}</p>
+              <p><strong>Priority:</strong> {task.priority}</p>
+              <p><strong>Status:</strong> {task.status}</p>
+            </div>
+          ))
         )}
       </div>
+      <button className="delete-account-button" onClick={() => setShowDeleteConfirmation(true)}>Delete Account</button>
+      {showDeleteConfirmation && (
+        <div className="confirmation-popup">
+          <p>Are you sure you want to delete your account?</p>
+          <button onClick={handleDeleteAccount}>Yes</button>
+          <button onClick={() => setShowDeleteConfirmation(false)}>No</button>
+        </div>
+      )}
     </div>
   );
 };

@@ -87,6 +87,7 @@ const UserDashboard = () => {
             <select value={statusFilter} onChange={handleStatusChange}>
                 <option value="All">All</option>
                 <option value="Pending">Pending</option>
+                <option value="InProgress">InProgress</option>
                 <option value="Completed">Completed</option>
             </select>
             <div className="task-list">
@@ -102,7 +103,7 @@ const UserDashboard = () => {
                                 onChange={(e) => handleTaskStatusChange(task.id, e.target.value)}
                             >
                                 <option value="Pending">Pending</option>
-                                <option value="In-Progress">In-Progress</option>
+                                <option value="InProgress">InProgress</option>
                                 <option value="Completed">Completed</option>
                             </select>
                             <button onClick={() => handleTaskDetails(task)}>Details</button>

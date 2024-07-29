@@ -11,6 +11,8 @@ import TaskList from './components/TaskList';
 import TaskDetail from './components/TaskDetail';
 import NewTask from './components/NewTask';
 import UserProfile from './components/UserProfile';
+import ManageUsers from './components/ManageUsers';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 function App() {
@@ -43,6 +45,7 @@ function App() {
           <Route path="/task-detail/:taskId" element={<TaskDetail />} />
           <Route path="/new-task" element={<NewTask />} />
           <Route path="/user-profile" element={<UserProfile />} />
+          <Route path="/manage-users" element={<ManageUsers />} />
         </Routes>
       </main>
       <Footer />
