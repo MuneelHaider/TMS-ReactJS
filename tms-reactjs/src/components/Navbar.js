@@ -9,10 +9,16 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
-    const storedRole = localStorage.getItem('role');
-    setUsername(storedUsername);
-    setRole(storedRole);
+    const handleStorageChange = () => {
+      setUsername(localStorage.getItem('username'));
+      setRole(localStorage.getItem('role'));
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   const handleHomeClick = () => {
