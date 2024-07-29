@@ -7,8 +7,6 @@ import AdminDashboard from './components/AdminDashboard';
 import UserDashboard from './components/UserDashboard';
 import Login from './components/Login';
 import Signup from './components/Signup';
-import TaskList from './components/TaskList';
-import TaskDetail from './components/TaskDetail';
 import NewTask from './components/NewTask';
 import UserProfile from './components/UserProfile';
 import ManageUsers from './components/ManageUsers';
@@ -41,8 +39,6 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/admin-dashboard" element={role === 'Admin' ? <AdminDashboard /> : <Home />} />
           <Route path="/user-dashboard" element={role === 'User' ? <UserDashboard /> : <Home />} />
-          <Route path="/task-list" element={<TaskList />} />
-          <Route path="/task-detail/:taskId" element={<TaskDetail />} />
           <Route path="/new-task" element={<NewTask />} />
           <Route path="/user-profile" element={<UserProfile />} />
           <Route path="/manage-users" element={<ManageUsers />} />
