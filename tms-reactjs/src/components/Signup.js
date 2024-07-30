@@ -9,6 +9,7 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  // handle user signup
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
@@ -25,22 +26,22 @@ const Signup = () => {
   return (
     <div className="auth-form-container">
       <form onSubmit={handleSignup} className="auth-form-box">
-        <h2>Signup</h2>
+        <h2>signup</h2>
         <input
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          placeholder="Username"
+          placeholder="username"
           required
         />
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
+          placeholder="password"
           required
         />
-        <button type="submit">Signup</button>
+        <button type="submit">signup</button>
       </form>
     </div>
   );

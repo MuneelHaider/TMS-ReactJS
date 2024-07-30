@@ -11,6 +11,7 @@ const CustomNavbar = () => {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
+  // update username and role when localStorage changes
   useEffect(() => {
     const handleStorageChange = () => {
       setUsername(localStorage.getItem('username'));
@@ -24,6 +25,7 @@ const CustomNavbar = () => {
     };
   }, []);
 
+  // close dropdown when clicking outside of it
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -37,6 +39,7 @@ const CustomNavbar = () => {
     };
   }, []);
 
+  // navigate to home based on user role
   const handleHomeClick = () => {
     if (username && role) {
       if (role === 'Admin') {
@@ -49,6 +52,7 @@ const CustomNavbar = () => {
     }
   };
 
+  // handle user logout
   const handleLogout = () => {
     localStorage.removeItem('username');
     localStorage.removeItem('role');
@@ -57,6 +61,7 @@ const CustomNavbar = () => {
     navigate('/');
   };
 
+  // toggle dropdown open state
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };

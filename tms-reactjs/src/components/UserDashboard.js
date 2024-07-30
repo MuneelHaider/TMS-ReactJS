@@ -11,6 +11,7 @@ const UserDashboard = () => {
     const [selectedTask, setSelectedTask] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
 
+    // fetch tasks from api
     useEffect(() => {
         const fetchTasks = async () => {
             try {
@@ -29,6 +30,7 @@ const UserDashboard = () => {
         fetchTasks();
     }, []);
 
+    // filter tasks based on search term and status filter
     useEffect(() => {
         let filtered = tasks;
 
@@ -45,14 +47,17 @@ const UserDashboard = () => {
         setFilteredTasks(filtered);
     }, [searchTerm, statusFilter, tasks]);
 
+    // handle search input change
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
     };
 
+    // handle status filter change
     const handleStatusChange = (event) => {
         setStatusFilter(event.target.value);
     };
 
+    // handle task status change
     const handleTaskStatusChange = async (taskId, newStatus) => {
         try {
             await axios.post(`${BASE_URL}/Tasks/update-status`, {
@@ -66,11 +71,13 @@ const UserDashboard = () => {
         }
     };
 
+    // handle task details popup
     const handleTaskDetails = (task) => {
         setSelectedTask(task);
         setShowPopup(true);
     };
 
+    // close task details popup
     const closePopup = () => {
         setShowPopup(false);
         setSelectedTask(null);

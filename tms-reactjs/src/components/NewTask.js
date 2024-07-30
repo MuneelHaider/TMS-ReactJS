@@ -11,6 +11,7 @@ const NewTask = () => {
   const [assignedTo, setAssignedTo] = useState('');
   const [users, setUsers] = useState([]);
 
+  // fetch users from api
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -26,6 +27,7 @@ const NewTask = () => {
     fetchUsers();
   }, []);
 
+  // handle form submission to create a new task
   const handleSubmit = async (e) => {
     e.preventDefault();
     const task = {
@@ -49,10 +51,10 @@ const NewTask = () => {
 
   return (
     <div className="new-task-container">
-      <h2>Create Task</h2>
+      <h2>create task</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Title</label>
+          <label>title</label>
           <input
             type="text"
             value={title}
@@ -61,7 +63,7 @@ const NewTask = () => {
           />
         </div>
         <div>
-          <label>Description</label>
+          <label>description</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -69,7 +71,7 @@ const NewTask = () => {
           ></textarea>
         </div>
         <div>
-          <label>Due Date</label>
+          <label>due date</label>
           <input
             type="date"
             value={dueDate}
@@ -78,32 +80,32 @@ const NewTask = () => {
           />
         </div>
         <div>
-          <label>Priority</label>
+          <label>priority</label>
           <select
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
             required
           >
-            <option value="">Select Priority</option>
-            <option value="High">High</option>
-            <option value="Medium">Medium</option>
-            <option value="Low">Low</option>
+            <option value="">select priority</option>
+            <option value="High">high</option>
+            <option value="Medium">medium</option>
+            <option value="Low">low</option>
           </select>
         </div>
         <div>
-          <label>Assign To</label>
+          <label>assign to</label>
           <select
             value={assignedTo}
             onChange={(e) => setAssignedTo(e.target.value)}
             required
           >
-            <option value="">Select User</option>
+            <option value="">select user</option>
             {users.map(user => (
               <option key={user.id} value={user.username}>{user.username}</option>
             ))}
           </select>
         </div>
-        <button type="submit">Create Task</button>
+        <button type="submit">create task</button>
       </form>
     </div>
   );

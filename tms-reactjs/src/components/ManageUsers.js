@@ -6,6 +6,7 @@ import { BASE_URL } from '../services/config';
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
 
+  // fetch users from api
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -21,6 +22,7 @@ const ManageUsers = () => {
     fetchUsers();
   }, []);
 
+  // handle user deletion
   const handleDeleteUser = async (userId) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
@@ -36,12 +38,12 @@ const ManageUsers = () => {
 
   return (
     <div className="manage-users-container">
-      <h2>Manage Users</h2>
+      <h2>manage users</h2>
       <ul>
         {users.map(user => (
           <li key={user.id}>
             <p><strong>{user.username}</strong> ({user.role})</p>
-            <button onClick={() => handleDeleteUser(user.id)}>Delete</button>
+            <button onClick={() => handleDeleteUser(user.id)}>delete</button>
           </li>
         ))}
       </ul>

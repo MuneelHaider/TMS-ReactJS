@@ -12,6 +12,7 @@ const AdminDashboard = () => {
   const adminUsername = localStorage.getItem('username');
   const navigate = useNavigate();
 
+  // fetch tasks from api
   useEffect(() => {
     const fetchTasks = async () => {
       try {
@@ -37,6 +38,7 @@ const AdminDashboard = () => {
     fetchTasks();
   }, [adminUsername]);
 
+  // handle task deletion
   const handleDelete = async (taskId) => {
     try {
       await axios.delete(`${BASE_URL}/Tasks/${taskId}`, {
@@ -52,10 +54,12 @@ const AdminDashboard = () => {
     }
   };
 
+  // view task details in a popup
   const handleViewDetails = (task) => {
     setSelectedTask(task);
   };
 
+  // close details popup
   const closeDetailsPopup = () => {
     setSelectedTask(null);
   };

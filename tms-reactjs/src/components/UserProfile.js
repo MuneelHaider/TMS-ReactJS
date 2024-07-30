@@ -8,6 +8,7 @@ const UserProfile = () => {
   const [taskCounts, setTaskCounts] = useState({ completed: 0, pending: 0 });
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
+  // fetch user profile from api
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -26,6 +27,7 @@ const UserProfile = () => {
     fetchProfile();
   }, []);
 
+  // handle account deletion
   const handleDeleteAccount = async () => {
     try {
       const username = localStorage.getItem('username');
