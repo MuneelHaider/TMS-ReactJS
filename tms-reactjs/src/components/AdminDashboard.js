@@ -9,10 +9,10 @@ const AdminDashboard = () => {
   const [inProgressTasks, setInProgressTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
   const adminUsername = localStorage.getItem('username');
   const navigate = useNavigate();
 
-  // fetch tasks from api
   useEffect(() => {
     const fetchTasks = async () => {
       try {
@@ -38,7 +38,6 @@ const AdminDashboard = () => {
     fetchTasks();
   }, [adminUsername]);
 
-  // handle task deletion
   const handleDelete = async (taskId) => {
     try {
       await axios.delete(`${BASE_URL}/Tasks/${taskId}`, {
@@ -54,13 +53,13 @@ const AdminDashboard = () => {
     }
   };
 
-  // view task details in a popup
   const handleViewDetails = (task) => {
     setSelectedTask(task);
+    setShowPopup(true);
   };
 
-  // close details popup
   const closeDetailsPopup = () => {
+    setShowPopup(false);
     setSelectedTask(null);
   };
 
@@ -125,7 +124,7 @@ const AdminDashboard = () => {
           )}
         </div>
       </div>
-      {selectedTask && (
+      {showPopup && selectedTask && (
         <div className="task-details-popup">
           <div className="popup-content">
             <h2>{selectedTask.title}</h2>

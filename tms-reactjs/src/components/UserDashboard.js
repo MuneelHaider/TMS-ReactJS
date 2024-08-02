@@ -5,80 +5,84 @@ import '../styles/UserDashboard.css';
 
 const UserDashboard = () => {
     const [tasks, setTasks] = useState([]);
-    const [filteredTasks, setFilteredTasks] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('All');
     const [selectedTask, setSelectedTask] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
 
-    // fetch tasks from api
-    useEffect(() => {
-        const fetchTasks = async () => {
-            try {
-                const username = localStorage.getItem('username');
-                const response = await axios.get(`${BASE_URL}/Tasks/user-tasks`, {
-                    headers: {
-                        username: username
-                    }
-                });
-                setTasks(response.data);
-                setFilteredTasks(response.data);
-            } catch (error) {
-                console.error('Error fetching tasks', error);
-            }
-        };
-        fetchTasks();
-    }, []);
-
-    // filter tasks based on search term and status filter
-    useEffect(() => {
-        let filtered = tasks;
-
-        if (searchTerm) {
-            filtered = filtered.filter(task =>
-                task.title.toLowerCase().includes(searchTerm.toLowerCase())
-            );
+    const fetchAllTasks = async () => {
+        try {
+            const username = localStorage.getItem('username');
+            const response = await axios.get(`${BASE_URL}/Tasks/user-tasks`, {
+                headers: {
+                    username: username
+                }
+            });
+            setTasks(response.data);
+        } catch (error) {
+            console.error('Error fetching tasks', error);
         }
+    };
 
-        if (statusFilter !== 'All') {
-            filtered = filtered.filter(task => task.status === statusFilter);
+    const fetchFilteredTasks = async () => {
+        try {
+            const username = localStorage.getItem('username');
+            const response = await axios.get(`${BASE_URL}/Tasks/search-tasks`, {
+                headers: {
+                    username: username
+                },
+                params: {
+                    searchTerm: searchTerm,
+                    status: statusFilter
+                }
+            });
+            setTasks(response.data);
+        } catch (error) {
+            console.error('Error fetching tasks', error);
         }
+    };
 
-        setFilteredTasks(filtered);
-    }, [searchTerm, statusFilter, tasks]);
+    useEffect(() => {
+        if (searchTerm === '' && statusFilter === 'All') {
+            fetchAllTasks();
+        } else if (searchTerm === '' && statusFilter !== 'All') {
+            fetchAllTasks();
+        } else {
+            fetchFilteredTasks();
+        }
+    }, [searchTerm, statusFilter]);
 
-    // handle search input change
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
     };
 
-    // handle status filter change
     const handleStatusChange = (event) => {
         setStatusFilter(event.target.value);
     };
 
-    // handle task status change
     const handleTaskStatusChange = async (taskId, newStatus) => {
         try {
             await axios.post(`${BASE_URL}/Tasks/update-status`, {
                 taskId: taskId,
                 status: newStatus
             });
-            
             setTasks(tasks.map(task => task.id === taskId ? { ...task, status: newStatus } : task));
         } catch (error) {
             console.error('Error updating task status', error);
         }
     };
 
-    // handle task details popup
     const handleTaskDetails = (task) => {
         setSelectedTask(task);
         setShowPopup(true);
     };
 
-    // close task details popup
     const closePopup = () => {
+        setShowPopup(false);
+        setSelectedTask(null);
+    };
+
+    const closeDetailsPopup = () => {
         setShowPopup(false);
         setSelectedTask(null);
     };
@@ -99,13 +103,14 @@ const UserDashboard = () => {
                 <option value="Completed">Completed</option>
             </select>
             <div className="task-list">
-                {filteredTasks.length > 0 ? (
-                    filteredTasks.map(task => (
+                {tasks.length > 0 ? (
+                    tasks.map(task => (
                         <div key={task.id} className="task-item">
                             <h3>{task.title}</h3>
                             <p>{task.description}</p>
                             <p>Status: {task.status}</p>
                             <p>Due Date: {new Date(task.dueDate).toLocaleDateString()}</p>
+                            <p>Priority: {task.priority}</p>
                             <select
                                 value={task.status}
                                 onChange={(e) => handleTaskStatusChange(task.id, e.target.value)}
@@ -132,6 +137,7 @@ const UserDashboard = () => {
                         <p>Priority: {selectedTask.priority}</p>
                         <p>Created By: {selectedTask.createdBy.username}</p>
                         <p>Assigned To: {selectedTask.assignedTo.username}</p>
+                        <button onClick={closeDetailsPopup}>Close</button>
                     </div>
                 </div>
             )}
