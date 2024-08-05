@@ -7,8 +7,8 @@
 # Requirements:
 1. NodeJS installed.
 2. .NET 6 SDK installed.
-3. Please run the server.NET project TMS_ before launching this project.
-4. After running the server.NET project TMS_, observe the localhost URL it takes you to. Copy that URL, since we will need it later.
+3. Please run the [server.NET project TMS_](https://github.com/MuneelHaider/TMS_) before launching this project.
+4. After running the [server.NET project TMS_](https://github.com/MuneelHaider/TMS_), observe the localhost URL it takes you to. Copy that URL, since we will need it later.
  
 5. ![image](https://github.com/user-attachments/assets/4f80b1e0-b688-41ad-9387-148a29983de4)
   
