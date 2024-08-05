@@ -10,7 +10,7 @@
 3. Please run the [server.NET project TMS_](https://github.com/MuneelHaider/TMS_) before launching this project.
 4. After running the [server.NET project TMS_](https://github.com/MuneelHaider/TMS_), observe the localhost URL it takes you to. Copy that URL, since we will need it later.
  
-5. ![image](https://github.com/user-attachments/assets/4f80b1e0-b688-41ad-9387-148a29983de4)
+ ![image](https://github.com/user-attachments/assets/4f80b1e0-b688-41ad-9387-148a29983de4)
   
 6. Make sure to only copy the localhost URL, not anything further than '/'.
 
@@ -21,6 +21,8 @@
 4. Write the following command (it will install all necessary modules used):  *npm install*
 5. Open config.cs in /src/services.
 6. Paste the URL you copied as a string to BASE_URL. (the string you copied after running the server.NET project).
-   ![image](https://github.com/user-attachments/assets/d7350d39-1dac-4584-a606-08eab3ce4377)
-8. In VS code, in the terminal write the following command: *npm start*
-9. You are good to go.
+
+    ![image](https://github.com/user-attachments/assets/d7350d39-1dac-4584-a606-08eab3ce4377)
+
+7. In VS code, in the terminal write the following command: *npm start*
+8. You are good to go.
